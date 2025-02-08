@@ -22,4 +22,5 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::resource('book', BookController::class);
     Route::resource('member', MemberController::class);
     Route::resource('book-rent', BookRentController::class);
+    Route::get('book-rent/return/{id}', [BookRentController::class, 'return']);
 });
