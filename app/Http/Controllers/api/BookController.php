@@ -27,7 +27,9 @@ class BookController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Summary of store
+     * @param \App\Http\Requests\api\CreateBookRequest $createBookRequest
+     * @return mixed|\Illuminate\Http\JsonResponse
      */
     public function store(CreateBookRequest $createBookRequest)
     {
@@ -64,18 +66,41 @@ class BookController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Summary of update
+     * @param \App\Http\Requests\api\CreateBookRequest $createBookRequest
+     * @param string $id
+     * @return mixed|\Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, string $id)
+    public function update(CreateBookRequest $createBookRequest, string $id)
     {
-        //
+        try {
+            $book = Book::findOrFail($id);
+            $book->title =  $createBookRequest->title;
+            $book->stock = $createBookRequest->stock;
+            $book->book_category_id= $createBookRequest->book_category_id;
+            $book->save();
+            return ResponseHelper::success('Update Success', 200, $book);
+        } catch (\Throwable $th) {
+            return ResponseHelper::error('Update Data Failed', $th->getCode(), $th->getMessage());
+        }
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Summary of destroy
+     * @param string $id
+     * @return mixed|\Illuminate\Http\JsonResponse
      */
     public function destroy(string $id)
     {
-        //
+        try {
+            $book = Book::findOrFail($id);
+
+            $book->delete();
+            return ResponseHelper::success('Delete Success', 200, null);
+        } catch (\Throwable $th) {
+            //throw $th;
+            return ResponseHelper::error('Delete Data Failed', $th->getCode(), $th->getMessage());
+
+        }
     }
 }
