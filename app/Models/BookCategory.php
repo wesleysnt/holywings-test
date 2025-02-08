@@ -16,4 +16,12 @@ class BookCategory extends Model
     protected $fillable = [
         'category',
     ];
+
+    /**
+     * Summary of book
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany<Book, BookCategory>
+     */
+    public function book() {
+        return $this->hasMany(Book::class, 'book_category_id','id');
+    }
 }

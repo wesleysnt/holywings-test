@@ -61,7 +61,10 @@ class BookCategoryController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Summary of update
+     * @param \App\Http\Requests\api\CreateBookCategoryRequest $request
+     * @param string $id
+     * @return mixed|\Illuminate\Http\JsonResponse
      */
     public function update(CreateBookCategoryRequest $request, string $id)
     {
@@ -77,7 +80,9 @@ class BookCategoryController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Summary of destroy
+     * @param string $id
+     * @return mixed|\Illuminate\Http\JsonResponse
      */
     public function destroy(string $id)
     {
