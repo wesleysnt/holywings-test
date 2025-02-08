@@ -30,6 +30,13 @@ class LoginRequest extends FormRequest
             'password'=>'required'
         ];
     }
+
+    /**
+     * Summary of failedValidation
+     * @param \Illuminate\Contracts\Validation\Validator $validator
+     * @throws \Illuminate\Http\Exceptions\HttpResponseException
+     * @return never
+     */
     protected function failedValidation(Validator $validator)
     {
         $errors = $validator->errors()->all();

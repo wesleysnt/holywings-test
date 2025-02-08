@@ -4,11 +4,11 @@ namespace App\Http\Controllers\api;
 
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\api\CreateBookCategoryRequest;
-use App\Models\BookCategory;
+use App\Http\Requests\api\CreateBookRequest;
+use App\Models\Book;
 use Illuminate\Http\Request;
 
-class BookCategoryController extends Controller
+class BookController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -28,19 +28,24 @@ class BookCategoryController extends Controller
 
     /**
      * Summary of store
-     * @param \App\Http\Requests\api\CreateBookCategoryRequest $createBookCategoryRequest
+     * @param \App\Http\Requests\api\CreateBookRequest $createBookRequest
      * @return mixed|\Illuminate\Http\JsonResponse
      */
-    public function store(CreateBookCategoryRequest $createBookCategoryRequest)
+    public function store(CreateBookRequest $createBookRequest)
     {
         try {
-            $bookCategory = new BookCategory;
-            $bookCategory->category = $createBookCategoryRequest->category;
-            $bookCategory->save();
-            return ResponseHelper::success('Book Category Created', 201, $bookCategory);
+            $book = new Book;
+            $book = Book::make([
+                'title'=>$createBookRequest->title,
+                'stock'=>$createBookRequest->stock,
+                'book_category_id'=>$createBookRequest->book_category_id,
+            ]);
+            $book->save();
+            return ResponseHelper::success('Book Created', 201, $book);
         } catch (\Throwable $th) {
             //throw $th;
-            return ResponseHelper::error('Failed to Create Book Category', 500, null);
+            return ResponseHelper::error('Failed to Create Book', 500, null);
+
         }
     }
 
@@ -62,19 +67,20 @@ class BookCategoryController extends Controller
 
     /**
      * Summary of update
-     * @param \App\Http\Requests\api\CreateBookCategoryRequest $request
+     * @param \App\Http\Requests\api\CreateBookRequest $createBookRequest
      * @param string $id
      * @return mixed|\Illuminate\Http\JsonResponse
      */
-    public function update(CreateBookCategoryRequest $request, string $id)
+    public function update(CreateBookRequest $createBookRequest, string $id)
     {
         try {
-            $bookCategory = BookCategory::findOrFail($id);
-            $bookCategory->category = $request->category;
-            $bookCategory->save();
-            return ResponseHelper::success('Update Success', 200, $bookCategory);
+            $book = Book::findOrFail($id);
+            $book->title =  $createBookRequest->title;
+            $book->stock = $createBookRequest->stock;
+            $book->book_category_id= $createBookRequest->book_category_id;
+            $book->save();
+            return ResponseHelper::success('Update Success', 200, $book);
         } catch (\Throwable $th) {
-            //throw $th;
             return ResponseHelper::error('Update Data Failed', $th->getCode(), $th->getMessage());
         }
     }
@@ -86,11 +92,10 @@ class BookCategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        //
         try {
-            $bookCategory = BookCategory::findOrFail($id);
+            $book = Book::findOrFail($id);
 
-            $bookCategory->delete();
+            $book->delete();
             return ResponseHelper::success('Delete Success', 200, null);
         } catch (\Throwable $th) {
             //throw $th;

@@ -7,7 +7,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class CreateBookCategoryRequest extends FormRequest
+class CreateBookRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +25,9 @@ class CreateBookCategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'category'=>"required"
+            'title'=>"required",
+            'book_category_id'=>'required',
+            'stock'=>'required',
         ];
     }
 
