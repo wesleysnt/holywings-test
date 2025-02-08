@@ -82,5 +82,15 @@ class BookCategoryController extends Controller
     public function destroy(string $id)
     {
         //
+        try {
+            $bookCategory = BookCategory::findOrFail($id);
+
+            $bookCategory->delete();
+            return ResponseHelper::success('Delete Success', 200, null);
+        } catch (\Throwable $th) {
+            //throw $th;
+            return ResponseHelper::error('Delete Data Failed', $th->getCode(), $th->getMessage());
+
+        }
     }
 }
