@@ -14,6 +14,7 @@ class BookRent extends Model
         'member_id',
         'due_date',
         'return_date',
+        'status',
     ];
 
     /**
