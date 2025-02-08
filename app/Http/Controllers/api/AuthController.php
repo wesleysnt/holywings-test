@@ -13,7 +13,12 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    //
+    /**
+     * Summary of Login
+     * @param \App\Http\Requests\api\LoginRequest $loginRequest
+     * @throws \Exception
+     * @return JsonResponse|mixed
+     */
     public function Login(LoginRequest $loginRequest): JsonResponse
     {
         try {
